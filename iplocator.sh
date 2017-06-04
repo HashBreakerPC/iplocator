@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  		iplocator.py
+#  		iplocator.sh
 #  
 #  Copyright 2017 c.realkiller <dino.tartaro@gmail.com>
 #  
