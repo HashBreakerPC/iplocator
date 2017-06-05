@@ -1,2 +1,1 @@
 # iplocator
-Depends on wget
