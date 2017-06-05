@@ -19,34 +19,53 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-#get ip
-#
-#To make the anonymous operating system and browser uncomment the variable us
-#us='--header="Accept: text/html" --user-agent="Mozilla/5.0 Gecko/20100101 Firefox/45.0"'
+# 
 lname=`basename $0 | cut -d '.' -f 1`
-close=""
-	while [[ "$close" = "" ]]
-	do
-	echo "========= ${lname^^} =========="
-	if ping -c 1 google.com >> /dev/null 2>&1; then
-		wget $us https://www.tracemyip.org/ -O 2>/dev/null .info.tmp
-		IP=`grep -oP '(?<=<input name="IP" type="text" class="fieldBOXIP" style="text-align: center;" onClick="this.focus()).*?(?=size="16" readonly>)' .info.tmp | cut -d '"' -f 3`
-		STATE=`grep -oP '<div class="resp_block_1 divWHSP tdLM">.*?(?=</div>)' .info.tmp | sed '1d;3,5d' | cut -d '>' -f 2`
-		INFO=`grep -oP '<td class="td.*?><span class="t.*?(?=</span>)' .info.tmp | cut -d '>' -f3 | sed -e '1d;10d;11d;12d'`
-		OS=`grep -oP '<div class="resp_block_1 divWHSP tdLM">.*?(?=</div>)' .info.tmp | sed '1d;2d;3d;5d' | cut -d '>' -f 2`
-		#print ip
-		echo "Your IP address is: $IP"
-		echo "COUNTRY: $STATE"
-		echo "$INFO"
-		echo "OS = $OS"
-		echo
-		read -p "CTRL+C or any key + ENTER to close: " close
-		else
-		echo "Check your internet connection"
-		echo "and launch another instance..!"
-		echo "           EXIT..."
-		sleep 4
-	fi
-done
+cle(){
+	clear
+	clear
+	clear
+	echo -e '#####################################################################'
+	echo -e '#                         IP LOCATE IN:                             #'
+	echo -e '#####################################################################'
+}
+
+reverse_ip(){
+	cle
+	w3m -dump http://www.ip-tracker.org/locator/ip-lookup.php?ip=$iploc | sed -n -e 77,126p | sed '/^$/d' | sed 's/^ *//'
+}
+echo "============ ${lname^^} ============="
+if ping -c 1 google.com >> /dev/null 2>&1; then
+	w3m -dump +num12  http://www.ip-tracker.org/  | sed -n -e 64,65p -e 86,87p -e 98,113p -e 127p -e 144,148p | sed '/^$/d'
+	read -p "Insert another IP to locate: " iploc
+	cle
+		if [[ "$iploc" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
+		then
+			reverse_ip
+				while (true)
+				do
+					read -p "another IP (OR CTRL+C to CLOSE): " iploc
+					if [[ "$iploc" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
+					then
+						reverse_ip
+						else
+						echo "IP ERROR:......EXIT"
+						sleep 5
+						exit 0
+					fi	
+						
+				done
+					
+			else
+			echo  "IP ERROR:.......EXIT"
+			sleep 5
+			exit 0
+		fi
+	else
+	echo "Check your internet connection"
+	echo "and launch another instance..!"
+	echo "           EXIT..."
+	sleep 4
+	exit 0
+fi
 exit 0
