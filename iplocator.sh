@@ -44,7 +44,7 @@ if ping -c 1 google.com >> /dev/null 2>&1; then
 			reverse_ip
 				while (true)
 				do
-					read -p "another IP (OR CTRL+C to CLOSE): " iploc
+					read -p "Insert another IP to locate it (OR CTRL+C to CLOSE): " iploc
 					if [[ "$iploc" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
 					then
 						reverse_ip
