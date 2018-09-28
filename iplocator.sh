@@ -37,14 +37,16 @@ reverse_ip(){
 echo "========= ${lname^^} =========="
 if ping -c 1 google.com >> /dev/null 2>&1; then
 	w3m -dump http://www.ip-tracker.org/  | sed -n -e 64,65p -e 86,87p -e 98,113p -e 127p -e 144,148p |  sed -e  '/^$/d' -e 's/^[ \t]*//;s/[ \t]*$//'
-	read -p "Insert another IP to locate it (OR CTRL+C to CLOSE): " iploc
+	echo "(CTRL+C to CLOSE OR)"
+	read -p "Insert another IP to locate it : " iploc
 	cle
 		if [[ "$iploc" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
 		then
 			reverse_ip
 				while (true)
 				do
-					read -p "Insert another IP to locate it (OR CTRL+C to CLOSE): " iploc
+					echo "(CTRL+C to CLOSE OR)"
+					read -p "Insert another IP to locate it : " iploc
 					if [[ "$iploc" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
 					then
 						reverse_ip
